@@ -1,7 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import { User } from "../models/user.model.js";
-import { uploadOncloudinary } from "../utils/cloudinary.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 // -->
@@ -42,8 +42,8 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // upload file to cloudinary and check
-  let avatar = await uploadOncloudinary(localAvatarPath);
-  let coverImage = await uploadOncloudinary(localCoverImagePath);
+  let avatar = await uploadOnCloudinary(localAvatarPath);
+  let coverImage = await uploadOnCloudinary(localCoverImagePath);
 
   if (!avatar) {
     throw new ApiError(500, "server error. plz try again");

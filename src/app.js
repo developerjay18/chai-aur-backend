@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { LIMIT } from "./constants.js";
 import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 
 const app = express();
 
@@ -15,15 +16,15 @@ app.use(express.static("public"));
 
 // router import
 import userRouter from "./routes/user.route.js";
-import trailRouter from "./routes/trail.route.js"
+import trailRouter from "./routes/trail.route.js";
 
 // routes declaration
 app.use("/api/v1/users", userRouter);
 
-app.get("/",(req,res)=>{
-    res.send("hello all")
-})
+app.get("/", (req, res) => {
+  res.send("hello all");
+});
 
-app.use("/trial",trailRouter)
+app.use("/trial", trailRouter);
 
 export default app;
