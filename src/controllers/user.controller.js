@@ -158,8 +158,8 @@ const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
-        refreshToken: undefined,
+      $unset: {
+        refreshToken: 1, // this removes the field from the document
       },
     },
     {
@@ -265,7 +265,8 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     throw new ApiError("401", "username or email is required");
   }
 
-  const user = User.findByIdAndUpdate(
+  // idhar bhi await lagana bhul gaya or 30 min bigad gayi
+  const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
       $set: {
@@ -354,7 +355,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
       $lookup: {
         from: "subscriptions",
         localField: "_id",
-        foreignFeild: "channel",
+        foreignField: "channel",
         as: "subscribers",
       },
     },
@@ -409,7 +410,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 });
 
 const getWatchHistory = asyncHandler(async (req, res) => {
-  const user = User.aggregate([
+  const user = await User.aggregate([
     {
       $match: {
         _id: new mongoose.Types.ObjectId(req.user._id),
@@ -469,7 +470,6 @@ export {
   refreshAccessToken,
   updateAccountDetails,
   updateUserAvatar,
-  getCurrentUser,
   getCurrentUser,
   changeCurrentPassword,
   updateUserCoverImage,
